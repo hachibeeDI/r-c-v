@@ -5,8 +5,8 @@
   "scripts": {
     "lint": "tslint --project .",
     "type-check": "tsc --noEmit",
-    "build": "tsc --emitDeclarationOnly && babel src --out-dir lib --extensions \".ts,.tsx\"",
-    "bundle": "webpack"
+    "build": "webpack",
+    "watch": "webpack --progress --watch"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
