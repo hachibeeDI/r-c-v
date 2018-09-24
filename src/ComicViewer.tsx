@@ -32,6 +32,8 @@ const Pager = styled<{ page: number }, "div">("div")`
   height: 95%;
 
   transform: translateX(${({ page }) => page * 100}%);
+  transition: transform 0.5s cubic-bezier(0.21, 0.1, 0.25, 1.13);
+}
 `;
 
 // FIXME: make it flexible
