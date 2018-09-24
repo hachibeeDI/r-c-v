@@ -59,7 +59,7 @@ const PagingButton = styled.button`
 // FIXME: make it flexible
 const PAGE_PER_SPREAD = 2;
 
-interface Props {
+export interface Props {
   images: ReadonlyArray<Page>;
 }
 interface State {
