@@ -20,7 +20,7 @@ const ViewerArea = styled.section`
   padding: 32px 48px
   height: 100vh;
   width: 100vw;
-  background-color: #34343480;
+  background-color: #272728d4;
 `;
 
 function App() {

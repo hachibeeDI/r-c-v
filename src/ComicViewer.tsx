@@ -36,6 +36,25 @@ const Pager = styled<{ page: number }, "div">("div")`
   transition: transform 0.5s cubic-bezier(0.21, 0.1, 0.25, 1.13);
 }
 `;
+const OperationArea = styled.div`
+  display: flex;
+  height: 5%;
+  width: 100%;
+`;
+const PagingButton = styled.button`
+  border: 1px solid #fff;
+  width: 240px;
+  margin: auto;
+  background-color: transparent;
+  color: #fff;
+  padding: 8px;
+  font-size: 15px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #fefefe35;
+  }
+`;
 
 // FIXME: make it flexible
 const PAGE_PER_SPREAD = 2;
@@ -82,15 +101,17 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
             />
           ))}
         </Pager>
-        <button
-          disabled={chunckedImages.length - 1 === currentPage}
-          onClick={this.next}
-        >
-          ←
-        </button>
-        <button disabled={currentPage === 0} onClick={this.prev}>
-          →
-        </button>
+        <OperationArea>
+          <PagingButton
+            disabled={chunckedImages.length - 1 === currentPage}
+            onClick={this.next}
+          >
+            next
+          </PagingButton>
+          <PagingButton disabled={currentPage === 0} onClick={this.prev}>
+            prev
+          </PagingButton>
+        </OperationArea>
       </ViewerContainer>
     );
   }
