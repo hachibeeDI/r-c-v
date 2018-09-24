@@ -1,4 +1,5 @@
 import * as React from "react";
+import { createSelector } from "reselect";
 import styled from "styled-components";
 
 import Spread, { Page } from "./Spread";
@@ -46,6 +47,11 @@ interface State {
   currentPage: number;
 }
 
+const pagingSelector = createSelector(
+  (props: Props) => props.images,
+  images => paging(images)
+);
+
 export default class ComicViewer extends React.PureComponent<Props, State> {
   public state = {
     currentPage: 0
@@ -63,7 +69,7 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
     const { currentPage } = this.state;
     const { images } = this.props;
 
-    const chunckedImages = paging(images);
+    const chunckedImages = this.getChunkedPages();
     return (
       <ViewerContainer>
         <Pager page={currentPage}>
@@ -84,16 +90,21 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
     );
   }
 
+  private getChunkedPages = () => pagingSelector(this.props);
   private captureKeyEvent = e => {
     switch (e.key) {
       case "ArrowLeft":
-        this.next();
+        this.prev();
         break;
       case "ArrowRight":
-        this.prev();
+        this.next();
         break;
       case "Home":
         this.setState({ currentPage: 0 });
+        break;
+      case "End":
+        this.setState({ currentPage: this.getChunkedPages().length - 1 });
+        break;
     }
   };
 
