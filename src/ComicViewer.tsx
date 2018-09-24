@@ -51,6 +51,14 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
     currentPage: 0
   };
 
+  public componentDidMount() {
+    document.addEventListener("keydown", this.captureKeyEvent);
+  }
+
+  public componentWillUnmount() {
+    document.removeEventListener("keydown", this.captureKeyEvent);
+  }
+
   public render() {
     const { currentPage } = this.state;
     const { images } = this.props;
@@ -69,15 +77,28 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
         >
           ←
         </button>
-        <button disabled={currentPage === 0} onClick={this.before}>
+        <button disabled={currentPage === 0} onClick={this.prev}>
           →
         </button>
       </ViewerContainer>
     );
   }
 
+  private captureKeyEvent = e => {
+    switch (e.key) {
+      case "ArrowLeft":
+        this.next();
+        break;
+      case "ArrowRight":
+        this.prev();
+        break;
+      case "Home":
+        this.setState({ currentPage: 0 });
+    }
+  };
+
   private next = () =>
     this.setState({ currentPage: this.state.currentPage + 1 });
-  private before = () =>
+  private prev = () =>
     this.setState({ currentPage: this.state.currentPage - 1 });
 }
