@@ -21,6 +21,11 @@ module.exports = {
     ],
   },
 
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM',
+  },
+
   devServer: {
     contentBase: path.resolve(__dirname, 'dist'),
     port: 3000,
