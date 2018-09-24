@@ -74,7 +74,12 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
       <ViewerContainer>
         <Pager page={currentPage}>
           {chunckedImages.map((cimg, i) => (
-            <Spread key={i} pages={cimg} />
+            <Spread
+              key={i}
+              pages={cimg}
+              onClickNext={this.next}
+              onClickPrev={this.prev}
+            />
           ))}
         </Pager>
         <button
@@ -94,10 +99,10 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
   private captureKeyEvent = e => {
     switch (e.key) {
       case "ArrowLeft":
-        this.prev();
+        this.next();
         break;
       case "ArrowRight":
-        this.next();
+        this.prev();
         break;
       case "Home":
         this.setState({ currentPage: 0 });
@@ -108,8 +113,14 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
     }
   };
 
-  private next = () =>
-    this.setState({ currentPage: this.state.currentPage + 1 });
-  private prev = () =>
-    this.setState({ currentPage: this.state.currentPage - 1 });
+  private next = () => {
+    if (this.state.currentPage !== this.getChunkedPages().length) {
+      this.setState({ currentPage: this.state.currentPage + 1 });
+    }
+  };
+  private prev = () => {
+    if (this.state.currentPage !== 0) {
+      this.setState({ currentPage: this.state.currentPage - 1 });
+    }
+  };
 }

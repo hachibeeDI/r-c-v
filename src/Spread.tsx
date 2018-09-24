@@ -15,6 +15,8 @@ const PageElem = styled<{ resource: string }, "div">("div")`
   width: 100%;
   height: 100%;
 
+  cursor: pointer;
+
   background-image: url("${({ resource }) => resource}");
   background-repeat: no-repeat;
   background-size: contain;
@@ -35,6 +37,9 @@ export interface Page {
 
 interface Props {
   pages: [Page, Page | undefined];
+
+  onClickNext: (e: Event) => void;
+  onClickPrev: (e: Event) => void;
 }
 
 export default function Spread(props: Props) {
@@ -42,8 +47,9 @@ export default function Spread(props: Props) {
   return (
     <SpreadContainer>
       {/* TODO: decent way to flip those */}
-      {second && <PageElem resource={second.src} />}
-      <PageElem resource={first.src} />
+      {/* TODO: need overlay to create clicker area? */}
+      {second && <PageElem resource={second.src} onClick={props.onClickNext} />}
+      <PageElem resource={first.src} onClick={props.onClickPrev} />
     </SpreadContainer>
   );
 }
