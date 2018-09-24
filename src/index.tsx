@@ -3,7 +3,7 @@ import { render } from "react-dom";
 import styled from "styled-components";
 
 import samples from "./_sample";
-import ComicViewer from "./ComicViewer.tsx";
+import ComicViewer from "./ComicViewer";
 
 const Section = styled.section`
   margin: 32px;

@@ -6,22 +6,35 @@ const SpreadContainer = styled.div`
 
   display: grid;
   grid-template-columns: 1fr 1fr;
+  // TODO: consult how much make those close
   grid-gap: 0px 16px;
   height: 100%;
   width: 100%;
 `;
-const Page = styled.div`
-  width: 100%;;
+const PageElem = styled<{ resource: string }, "div">("div")`
+  width: 100%;
   height: 100%;
 
-  background-image: url("${({ resource }) => resource.src}");
-  background-position: center;
+  background-image: url("${({ resource }) => resource}");
   background-repeat: no-repeat;
   background-size: contain;
+  // background-position: center;
+
+  // TODO: what if we ganna address foreign's comic?
+  &:first-child {
+    background-position: right;
+  }
+  &:last-child {
+    background-position: left;
+  }
 `;
 
+export interface Page {
+  src: string;
+}
+
 interface Props {
-  pages: [string, string | undefined];
+  pages: [Page, Page | undefined];
 }
 
 export default function Spread(props: Props) {
@@ -29,8 +42,8 @@ export default function Spread(props: Props) {
   return (
     <SpreadContainer>
       {/* TODO: decent way to flip those */}
-      {second && <Page resource={second} />}
-      <Page resource={first} />
+      {second && <PageElem resource={second.src} />}
+      <PageElem resource={first.src} />
     </SpreadContainer>
   );
 }

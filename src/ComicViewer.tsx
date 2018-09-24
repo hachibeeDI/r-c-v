@@ -1,23 +1,31 @@
 import * as React from "react";
 import styled from "styled-components";
 
-import Spread from "./Spread";
+import Spread, { Page } from "./Spread";
 
-function chunk<T>(arr: Array<T>, chunkSize: number): Array<Array<T>> {
+function chunk<T>(
+  arr: ReadonlyArray<T>,
+  chunkSize: number
+): any /* TODO: does TS have a trick to make it strict tuple? */ {
   return arr.reduce(
-    (prevVal: any, currVal: any, currIndx: number, array: Array<T>) =>
+    (prevVal: any, currVal: any, currIndx: number, array: ReadonlyArray<T>) =>
       !(currIndx % chunkSize)
         ? prevVal.concat([array.slice(currIndx, currIndx + chunkSize)])
         : prevVal,
     []
   );
 }
+const paging: (
+  pages: ReadonlyArray<Page>
+) => ReadonlyArray<[Page, Page | undefined]> = pages =>
+  chunk(pages, PAGE_PER_SPREAD);
 
 const ViewerContainer = styled.div`
   width: 100%;
   height: 100%;
 `;
-const Pager = styled.div`
+
+const Pager = styled<{ page: number }, "div">("div")`
   display: flex;
   flex-flow: row-reverse nowrap;
   width: 100%;
@@ -30,42 +38,44 @@ const Pager = styled.div`
 const PAGE_PER_SPREAD = 2;
 
 interface Props {
-  images: ReadonlyArray<string>;
+  images: ReadonlyArray<Page>;
 }
 interface State {
-  page: number;
+  currentPage: number;
 }
 
 export default class ComicViewer extends React.PureComponent<Props, State> {
   public state = {
-    page: 0
+    currentPage: 0
   };
 
   public render() {
-    const { page } = this.state;
+    const { currentPage } = this.state;
     const { images } = this.props;
 
-    const chunckedImages = chunk(images, PAGE_PER_SPREAD);
+    const chunckedImages = paging(images);
     return (
       <ViewerContainer>
-        <Pager page={page}>
+        <Pager page={currentPage}>
           {chunckedImages.map((cimg, i) => (
             <Spread key={i} pages={cimg} />
           ))}
         </Pager>
         <button
-          disabled={chunckedImages.length - 1 === page}
+          disabled={chunckedImages.length - 1 === currentPage}
           onClick={this.next}
         >
           ←
         </button>
-        <button disabled={page === 0} onClick={this.before}>
+        <button disabled={currentPage === 0} onClick={this.before}>
           →
         </button>
       </ViewerContainer>
     );
   }
 
-  private next = () => this.setState({ page: this.state.page + 1 });
-  private before = () => this.setState({ page: this.state.page - 1 });
+  private next = () =>
+    this.setState({ currentPage: this.state.currentPage + 1 });
+  private before = () =>
+    this.setState({ currentPage: this.state.currentPage - 1 });
 }
