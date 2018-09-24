@@ -12,8 +12,15 @@ const Section = styled.section`
 `;
 
 const ViewerArea = styled.section`
-  height: 540px;
-  width: 980px;
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  margin: auto;
+
+  box-sizing: border-box;
+  padding: 32px 48px
+  height: 100vh;
+  width: 100vw;
+  background-color: #34343480;
 `;
 
 function App() {

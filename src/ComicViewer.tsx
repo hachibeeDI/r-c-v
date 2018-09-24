@@ -18,8 +18,12 @@ const ViewerContainer = styled.div`
   height: 100%;
 `;
 const Pager = styled.div`
+  display: flex;
+  flex-flow: row-reverse nowrap;
   width: 100%;
   height: 95%;
+
+  transform: translateX(${({ page }) => page * 100}%);
 `;
 
 // FIXME: make it flexible
@@ -40,20 +44,22 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
   public render() {
     const { page } = this.state;
     const { images } = this.props;
+
+    const chunckedImages = chunk(images, PAGE_PER_SPREAD);
     return (
       <ViewerContainer>
-        <Pager>
-          {chunk(images, PAGE_PER_SPREAD).map((chunckedImages, i) => (
-            <Spread key={i} pages={chunckedImages} />
+        <Pager page={page}>
+          {chunckedImages.map((cimg, i) => (
+            <Spread key={i} pages={cimg} />
           ))}
         </Pager>
         <button
-          disable={(images.length === page).toString()}
+          disabled={chunckedImages.length - 1 === page}
           onClick={this.next}
         >
           ←
         </button>
-        <button disable={(page === 0).toString()} onClick={this.before}>
+        <button disabled={page === 0} onClick={this.before}>
           →
         </button>
       </ViewerContainer>
