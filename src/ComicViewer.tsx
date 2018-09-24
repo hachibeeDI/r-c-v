@@ -13,8 +13,14 @@ function chunk<T>(arr: Array<T>, chunkSize: number): Array<Array<T>> {
   );
 }
 
-const ViewerContainer = styled.div``;
-const Pager = styled.div``;
+const ViewerContainer = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+const Pager = styled.div`
+  width: 100%;
+  height: 95%;
+`;
 
 // FIXME: make it flexible
 const PAGE_PER_SPREAD = 2;
@@ -37,14 +43,17 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
     return (
       <ViewerContainer>
         <Pager>
-          {chunk(images, PAGE_PER_SPREAD).map(chunckedImages => (
-            <Spread img={chunckedImages} />
+          {chunk(images, PAGE_PER_SPREAD).map((chunckedImages, i) => (
+            <Spread key={i} pages={chunckedImages} />
           ))}
-        <Pager>
-        <button disable={images.length === page} onClick={this.next}>
+        </Pager>
+        <button
+          disable={(images.length === page).toString()}
+          onClick={this.next}
+        >
           ←
         </button>
-        <button disable={page === 0} onClick={this.before}>
+        <button disable={(page === 0).toString()} onClick={this.before}>
           →
         </button>
       </ViewerContainer>
