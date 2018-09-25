@@ -21,7 +21,6 @@ interface OverlayProps {
 
 export default function OverlayViewer(props: OverlayProps & Props) {
   const { open, ...viewerProps } = props;
-  debugger;
   if (!open) {
     return null;
   }
