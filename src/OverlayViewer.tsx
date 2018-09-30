@@ -53,10 +53,18 @@ export default function OverlayViewer(props: OverlayProps & Props) {
   if (!open) {
     return null;
   }
+
+  const handleOnClose = (e: React.MouseEvent<HTMLElement>) => {
+    if (e.target !== e.currentTarget) {
+      return;
+    }
+    onClose(e);
+  };
+
   return (
-    <ViewerArea onClick={onClose}>
+    <ViewerArea onClick={handleOnClose}>
       <ViewerPlacer>
-        <CloseButton onClick={onClose}>X</CloseButton>
+        <CloseButton onClick={handleOnClose}>X</CloseButton>
         <ComicViewer {...viewerProps} />
       </ViewerPlacer>
     </ViewerArea>
