@@ -1,4 +1,5 @@
 import * as React from "react";
+import Swipe from "react-swipe-component";
 import styled from "styled-components";
 
 import { THRESHOLD_AS_MOBILE, THRESHOLD_AS_ROTATED_TABLET } from "../constants";
@@ -52,8 +53,8 @@ interface Props {
   isSmallDisplay: boolean;
   pages: [Page, Page | undefined];
 
-  onClickNext: (event: React.MouseEvent<HTMLElement>) => void;
-  onClickPrev: (event: React.MouseEvent<HTMLElement>) => void;
+  onNext: () => void;
+  onPrev: () => void;
 }
 
 export default function Spread(props: Props) {
@@ -62,19 +63,24 @@ export default function Spread(props: Props) {
     pages: [first, second]
   } = props;
   return (
-    <SpreadContainer>
+    <Swipe
+      nodeName={SpreadContainer}
+      mouseSwipe={true}
+      onSwipedLeft={props.onPrev}
+      onSwipedRight={props.onNext}
+    >
       {/* TODO: decent way to flip those */}
       {/* TODO: need overlay to create clicker area? then we can be able to handle click event also on mobile */}
       {second && (
         <PageElem
           resource={second.src}
-          onClick={isSmallDisplay ? undefined : props.onClickNext}
+          onClick={isSmallDisplay ? undefined : props.onNext}
         />
       )}
       <PageElem
         resource={first.src}
-        onClick={isSmallDisplay ? undefined : props.onClickPrev}
+        onClick={isSmallDisplay ? undefined : props.onPrev}
       />
-    </SpreadContainer>
+    </Swipe>
   );
 }

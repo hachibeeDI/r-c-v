@@ -1,4 +1,4 @@
-import { Page } from "./Spread";
+import { Page } from "./organisms/Spread";
 
 // FIXME: investigate why we can't assign a type have extra props.
 const demoManga: ReadonlyArray<any> = [

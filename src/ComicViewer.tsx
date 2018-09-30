@@ -35,15 +35,17 @@ const OperationArea = styled.div`
   width: 100%;
 `;
 
-const isDisplaySmall = () => window.innerWidth < THRESHOLD_AS_ROTATED_TABLET;
+const isDisplaySmall = (): boolean =>
+  window.innerWidth < THRESHOLD_AS_ROTATED_TABLET;
 // FIXME: what if user resize/rotate the display?
-const PAGE_PER_SPREAD = isDisplaySmall() ? 2 : 1;
+const PAGE_PER_SPREAD = isDisplaySmall() ? 1 : 2;
 
 export interface Props {
   images: ReadonlyArray<Page>;
 }
 interface State {
   currentPage: number;
+  isSmallDisplay: boolean;
 }
 
 const pagingSelector = createSelector(
@@ -54,7 +56,7 @@ const pagingSelector = createSelector(
 export default class ComicViewer extends React.PureComponent<Props, State> {
   public state = {
     currentPage: 0,
-    isSmallDisplay: null
+    isSmallDisplay: false
   };
 
   public componentDidMount() {
@@ -77,8 +79,8 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
               key={i}
               pages={cimg}
               isSmallDisplay={this.state.isSmallDisplay}
-              onClickNext={this.handleNextClick}
-              onClickPrev={this.handlePrevClick}
+              onNext={this.next}
+              onPrev={this.prev}
             />
           ))}
         </Pager>
