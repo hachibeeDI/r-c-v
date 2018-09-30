@@ -54,6 +54,15 @@ const PagingButton = styled.button`
   &:hover {
     background-color: #fefefe35;
   }
+
+  &:disabled {
+    border-color: #ffffff40;
+    color: #ffffff40;
+    cursor: default;
+    &:hover {
+      background-color: transparent;
+    }
+  }
 `;
 
 // FIXME: make it flexible
@@ -96,19 +105,22 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
             <Spread
               key={i}
               pages={cimg}
-              onClickNext={this.next}
-              onClickPrev={this.prev}
+              onClickNext={this.handleNextClick}
+              onClickPrev={this.handlePrevClick}
             />
           ))}
         </Pager>
         <OperationArea>
           <PagingButton
             disabled={chunckedImages.length - 1 === currentPage}
-            onClick={this.next}
+            onClick={this.handleNextClick}
           >
             next
           </PagingButton>
-          <PagingButton disabled={currentPage === 0} onClick={this.prev}>
+          <PagingButton
+            disabled={currentPage === 0}
+            onClick={this.handlePrevClick}
+          >
             prev
           </PagingButton>
         </OperationArea>
@@ -134,10 +146,18 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
     }
   };
 
+  private handleNextClick = (e: Event) => {
+    e.stopPropagation();
+    this.next();
+  };
   private next = () => {
     if (this.state.currentPage !== this.getChunkedPages().length) {
       this.setState({ currentPage: this.state.currentPage + 1 });
     }
+  };
+  private handlePrevClick = (e: Event) => {
+    e.stopPropagation();
+    this.prev();
   };
   private prev = () => {
     if (this.state.currentPage !== 0) {

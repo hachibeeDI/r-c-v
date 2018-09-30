@@ -5,28 +5,52 @@ import ComicViewer, { Props } from "./ComicViewer";
 
 const ViewerArea = styled.section`
   position: fixed;
-  top: 0; right: 0; bottom: 0; left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   margin: auto;
 
-  box-sizing: border-box;
-  padding: 32px 48px
   height: 100vh;
   width: 100vw;
   background-color: #272728d4;
 `;
+const ViewerPlacer = styled.section`
+  position: relative;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  padding: 32px 48px;
+`;
+const CloseButton = styled.button.attrs({ type: "button" })`
+  position: absolute;
+  top: 24px;
+  right: 48px;
+  border-radius: 50%;
+  border: 1px solid #e3e3e3;
+  background-color: #343434;
+  color: white;
+  height: 32px;
+  width: 32px;
+  z-index: 10;
+`;
 
 interface OverlayProps {
   open: boolean;
+  onClose: (e: Event) => void;
 }
 
 export default function OverlayViewer(props: OverlayProps & Props) {
-  const { open, ...viewerProps } = props;
+  const { open, onClose, ...viewerProps } = props;
   if (!open) {
     return null;
   }
   return (
-    <ViewerArea>
-      <ComicViewer {...viewerProps} />
+    <ViewerArea onClick={onClose}>
+      <ViewerPlacer>
+        <CloseButton onClick={onClose}>X</CloseButton>
+        <ComicViewer {...viewerProps} />
+      </ViewerPlacer>
     </ViewerArea>
   );
 }

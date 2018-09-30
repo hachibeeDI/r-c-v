@@ -22,7 +22,11 @@ class App extends React.PureComponent {
           Manga!
         </button>
 
-        <OverlayViewer open={this.state.reading} images={samples} />
+        <OverlayViewer
+          open={this.state.reading}
+          images={samples}
+          onClose={e => this.setState({ reading: false })}
+        />
       </Section>
     );
   }
