@@ -96,11 +96,10 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
   public render() {
     const { currentPage } = this.state;
 
-    const chunckedImages = this.getChunkedPages();
     return (
       <ViewerContainer>
         <Pager page={currentPage}>
-          {chunckedImages.map((cimg, i) => (
+          {this.getChunkedPages().map((cimg, i) => (
             <Spread
               key={i}
               pages={cimg}
@@ -111,7 +110,7 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
         </Pager>
         <OperationArea>
           <PagingButton
-            disabled={chunckedImages.length - 1 === currentPage}
+            disabled={this.haveDone()}
             onClick={this.handleNextClick}
           >
             next
@@ -125,6 +124,10 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
         </OperationArea>
       </ViewerContainer>
     );
+  }
+
+  private haveDone() {
+    return this.getChunkedPages().length - 1 === this.state.currentPage;
   }
 
   private getChunkedPages = () => pagingSelector(this.props);
@@ -150,10 +153,11 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
     this.next();
   };
   private next = () => {
-    if (this.state.currentPage !== this.getChunkedPages().length) {
+    if (!this.haveDone()) {
       this.setState({ currentPage: this.state.currentPage + 1 });
     }
   };
+
   private handlePrevClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     this.prev();
