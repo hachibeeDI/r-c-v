@@ -95,7 +95,6 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
 
   public render() {
     const { currentPage } = this.state;
-    const { images } = this.props;
 
     const chunckedImages = this.getChunkedPages();
     return (
@@ -129,7 +128,7 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
   }
 
   private getChunkedPages = () => pagingSelector(this.props);
-  private captureKeyEvent = e => {
+  private captureKeyEvent = (e: KeyboardEvent) => {
     switch (e.key) {
       case "ArrowLeft":
         this.next();
@@ -146,7 +145,7 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
     }
   };
 
-  private handleNextClick = (e: Event) => {
+  private handleNextClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     this.next();
   };
@@ -155,7 +154,7 @@ export default class ComicViewer extends React.PureComponent<Props, State> {
       this.setState({ currentPage: this.state.currentPage + 1 });
     }
   };
-  private handlePrevClick = (e: Event) => {
+  private handlePrevClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     this.prev();
   };

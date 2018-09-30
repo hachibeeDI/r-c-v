@@ -37,7 +37,7 @@ const CloseButton = styled.button.attrs({ type: "button" })`
 
 interface OverlayProps {
   open: boolean;
-  onClose: (e: Event) => void;
+  onClose: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 export default function OverlayViewer(props: OverlayProps & Props) {

@@ -38,8 +38,8 @@ export interface Page {
 interface Props {
   pages: [Page, Page | undefined];
 
-  onClickNext: (e: Event) => void;
-  onClickPrev: (e: Event) => void;
+  onClickNext: (event: React.MouseEvent<HTMLElement>) => void;
+  onClickPrev: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 export default function Spread(props: Props) {
