@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import Pager from "./atoms/Pager";
 import PagingButton from "./atoms/PagingButton";
+import { THRESHOLD_AS_ROTATED_TABLET } from "./constants";
 import Spread, { Page } from "./organisms/Spread";
 
 function chunk<T>(
@@ -34,8 +35,9 @@ const OperationArea = styled.div`
   width: 100%;
 `;
 
-// FIXME: make it flexible
-const PAGE_PER_SPREAD = 2;
+// FIXME: what if user resize/rotate the display?
+const PAGE_PER_SPREAD =
+  window.innerWidth >= THRESHOLD_AS_ROTATED_TABLET ? 2 : 1;
 
 export interface Props {
   images: ReadonlyArray<Page>;

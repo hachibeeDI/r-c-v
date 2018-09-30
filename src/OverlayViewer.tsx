@@ -2,6 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 
 import ComicViewer, { Props } from "./ComicViewer";
+import { THRESHOLD_AS_MOBILE, THRESHOLD_AS_ROTATED_TABLET } from "./constants";
 
 const ViewerArea = styled.section`
   position: fixed;
@@ -21,6 +22,13 @@ const ViewerPlacer = styled.section`
   height: 100%;
   width: 100%;
   padding: 32px 48px;
+
+  @media screen and (max-width: ${THRESHOLD_AS_MOBILE}px) {
+    padding: 0px 16px;
+  }
+  @media screen and (max-width: ${THRESHOLD_AS_ROTATED_TABLET}px) {
+    padding: 4px 8px;
+  }
 `;
 const CloseButton = styled.button.attrs({ type: "button" })`
   position: absolute;
