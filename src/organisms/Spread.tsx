@@ -49,6 +49,7 @@ export interface Page {
 }
 
 interface Props {
+  isSmallDisplay: boolean;
   pages: [Page, Page | undefined];
 
   onClickNext: (event: React.MouseEvent<HTMLElement>) => void;
@@ -56,13 +57,24 @@ interface Props {
 }
 
 export default function Spread(props: Props) {
-  const [first, second] = props.pages;
+  const {
+    isSmallDisplay,
+    pages: [first, second]
+  } = props;
   return (
     <SpreadContainer>
       {/* TODO: decent way to flip those */}
-      {/* TODO: need overlay to create clicker area? */}
-      {second && <PageElem resource={second.src} onClick={props.onClickNext} />}
-      <PageElem resource={first.src} onClick={props.onClickPrev} />
+      {/* TODO: need overlay to create clicker area? then we can be able to handle click event also on mobile */}
+      {second && (
+        <PageElem
+          resource={second.src}
+          onClick={isSmallDisplay ? undefined : props.onClickNext}
+        />
+      )}
+      <PageElem
+        resource={first.src}
+        onClick={isSmallDisplay ? undefined : props.onClickPrev}
+      />
     </SpreadContainer>
   );
 }
