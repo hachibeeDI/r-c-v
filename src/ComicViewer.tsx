@@ -2,7 +2,9 @@ import * as React from "react";
 import { createSelector } from "reselect";
 import styled from "styled-components";
 
-import Spread, { Page } from "./Spread";
+import Pager from "./atoms/Pager";
+import PagingButton from "./atoms/PagingButton";
+import Spread, { Page } from "./organisms/Spread";
 
 function chunk<T>(
   arr: ReadonlyArray<T>,
@@ -26,43 +28,10 @@ const ViewerContainer = styled.div`
   height: 100%;
 `;
 
-const Pager = styled<{ page: number }, "div">("div")`
-  display: flex;
-  flex-flow: row-reverse nowrap;
-  width: 100%;
-  height: 95%;
-
-  transform: translateX(${({ page }) => page * 100}%);
-  transition: transform 0.5s cubic-bezier(0.21, 0.1, 0.25, 1.13);
-}
-`;
 const OperationArea = styled.div`
   display: flex;
   height: 5%;
   width: 100%;
-`;
-const PagingButton = styled.button`
-  border: 1px solid #fff;
-  width: 240px;
-  margin: auto;
-  background-color: transparent;
-  color: #fff;
-  padding: 8px;
-  font-size: 15px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #fefefe35;
-  }
-
-  &:disabled {
-    border-color: #ffffff40;
-    color: #ffffff40;
-    cursor: default;
-    &:hover {
-      background-color: transparent;
-    }
-  }
 `;
 
 // FIXME: make it flexible
